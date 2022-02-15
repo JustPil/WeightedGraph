@@ -1,4 +1,4 @@
-package UWG;
+package UG;
 
 import java.util.Queue;
 import java.util.Scanner;
