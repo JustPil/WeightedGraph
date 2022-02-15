@@ -1,7 +1,8 @@
 package UG;
 
-public interface GraphInterface<T>
-{
+import java.util.Queue;
+
+public interface GraphInterface<T> {
     void addVertex(T vertex);
     boolean hasVertex(T vertex);
     boolean removeVertex(T vertex);
@@ -12,7 +13,7 @@ public interface GraphInterface<T>
     boolean removeEdge(T source, T destination);
     boolean isEmpty();
     boolean isFull();
-    QueueArrayList<T> adjacentVertices(T vertex);
+    Queue<T> adjacentVertices(T vertex);
     void markVertex(T vertex);
     boolean isMarked(T vertex);
     void clearAllMarks();
