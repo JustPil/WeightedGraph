@@ -1,4 +1,4 @@
-package UWG;
+package UG;
 
 import java.util.Arrays;
 import java.util.LinkedList;
