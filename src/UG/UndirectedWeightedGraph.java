@@ -1,9 +1,10 @@
-package UG;
+package UWG;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class UndirectedWeightedGraph<T> implements GraphInterface<T>
-{
+public class UndirectedWeightedGraph<T> implements GraphInterface<T> {
     private final int UNINITIALIZED_EDGE = -1;
     private int capacity;
     private int totalVertices = 0;
@@ -14,8 +15,7 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
     /**
      * Constructor initializes capacity to 50 elements.
      */
-    public UndirectedWeightedGraph()
-    {
+    public UndirectedWeightedGraph() {
         int VERTEX_CAP = 50;
         vertexArray = (T[])new Object[VERTEX_CAP];
         edgeMatrix = new int[VERTEX_CAP][VERTEX_CAP];
@@ -28,11 +28,9 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * capacity is invoked.
      * @param cap The non-negative vertex capacity.
      */
-    public UndirectedWeightedGraph(int cap)
-    {
+    public UndirectedWeightedGraph(int cap) {
         capacity = cap;
-        if(cap <= 0)
-        {
+        if(cap <= 0) {
             capacity = 50;
         }
         vertexArray = (T[])new Object[capacity];
@@ -44,11 +42,9 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * addVertex Adds a vertex to the Graph.
      * @param vertex The vertex to add.
      */
-    public void addVertex(T vertex)
-    {
+    public void addVertex(T vertex) {
         vertexArray[totalVertices] = vertex;
-        for(int i = 0; i < totalVertices; i++)
-        {
+        for(int i = 0; i < totalVertices; i++) {
             edgeMatrix[totalVertices][i] = UNINITIALIZED_EDGE;
             edgeMatrix[i][totalVertices] = UNINITIALIZED_EDGE;
         }
@@ -60,19 +56,13 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * @param vertex The vertex to search for.
      * @return True if the vertex is present, false otherwise.
      */
-    public boolean hasVertex(T vertex)
-    {
-        for(int i = 0; i < totalVertices; i++)
-        {
-            try
-            {
-                if (vertexArray[i].equals(vertex))
-                {
+    public boolean hasVertex(T vertex) {
+        for(int i = 0; i < totalVertices; i++) {
+            try {
+                if (vertexArray[i].equals(vertex)) {
                     return true;
                 }
-            }
-            catch(NullPointerException e)
-            {
+            } catch(NullPointerException e) {
                 continue;
             }
         }
@@ -84,19 +74,15 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * @param vertex The vertex to remove.
      * @return True if the vertex is removed, false otherwise.
      */
-    public boolean removeVertex(T vertex)
-    {
+    public boolean removeVertex(T vertex) {
         int index = indexFinder(vertex);
-        if(index < 0)
-        {
+        if(index < 0) {
             return false;
         }
-        QueueArrayList<Integer> queue = adjacentVertexIndices(vertex);
-        while(!queue.isEmpty())
-        {
-            int dequeue = queue.dequeue();
-            if(edgeMatrix[index][dequeue] != UNINITIALIZED_EDGE)
-            {
+        Queue<Integer> queue = adjacentVertexIndices(vertex);
+        while(!queue.isEmpty()) {
+            int dequeue = queue.remove();
+            if(edgeMatrix[index][dequeue] != UNINITIALIZED_EDGE) {
                 edgeMatrix[index][dequeue] = UNINITIALIZED_EDGE;
                 edgeMatrix[dequeue][index] = UNINITIALIZED_EDGE;
             }
@@ -110,8 +96,7 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * getTotalVertices Returns the total number of vertices present in the Graph.
      * @return The total number of vertices.
      */
-    public int getTotalVertices()
-    {
+    public int getTotalVertices() {
         return totalVertices;
     }
 
@@ -122,16 +107,13 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * @param weight The weight of the edge.
      * @return True if edge is added successfully, false otherwise.
      */
-    public boolean addEdge(T source, T destination, int weight)
-    {
-        if(weight < 0)
-        {
+    public boolean addEdge(T source, T destination, int weight) {
+        if(weight < 0) {
             return false;
         }
         int row = indexFinder(source);
         int col = indexFinder(destination);
-        if(row < 0 || col < 0)
-        {
+        if(row < 0 || col < 0) {
             return false;
         }
         edgeMatrix[row][col] = weight;
@@ -145,12 +127,10 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * @param destination The destination vertex.
      * @return the weight of the edge if found, a negative weight if there was no edge.
      */
-    public int getEdge(T source, T destination)
-    {
+    public int getEdge(T source, T destination) {
         int row = indexFinder(source);
         int col = indexFinder(destination);
-        if(row < 0 || col < 0)
-        {
+        if(row < 0 || col < 0) {
             return -1;
         }
         return edgeMatrix[row][col];
@@ -162,12 +142,10 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * @param destination The destination vertex.
      * @return True if an edge exists, false otherwise.
      */
-    public boolean containsEdge(T source, T destination)
-    {
+    public boolean containsEdge(T source, T destination) {
         int row = indexFinder(source);
         int col = indexFinder(destination);
-        if(row < 0 || col < 0)
-        {
+        if(row < 0 || col < 0) {
             return false;
         }
         return edgeMatrix[row][col] != UNINITIALIZED_EDGE;
@@ -179,12 +157,10 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * @param destination The destination vertex.
      * @return True if the edge is removed, false if the edge was not found.
      */
-    public boolean removeEdge(T source, T destination)
-    {
+    public boolean removeEdge(T source, T destination) {
         int row = indexFinder(source);
         int col = indexFinder(destination);
-        if(row < 0 || col < 0)
-        {
+        if(row < 0 || col < 0) {
             return false;
         }
         edgeMatrix[row][col] = UNINITIALIZED_EDGE;
@@ -197,20 +173,14 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * @param vertex The vertex to search for.
      * @return The index of the vertex, or a negative number if the vertex was not found.
      */
-    private int indexFinder(T vertex)
-    {
+    private int indexFinder(T vertex) {
         int index = -1;
-        for(int i = 0; i < totalVertices; i++)
-        {
-            try
-            {
-                if (vertexArray[i].equals(vertex))
-                {
+        for(int i = 0; i < totalVertices; i++) {
+            try {
+                if (vertexArray[i].equals(vertex)) {
                     index = i;
                 }
-            }
-            catch(NullPointerException e)
-            {
+            } catch(NullPointerException e) {
                 continue;
             }
         }
@@ -221,8 +191,7 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * isEmpty Checks if the Graph is empty.
      * @return True if the Graph is empty, false otherwise.
      */
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return totalVertices == 0;
     }
 
@@ -230,8 +199,7 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * isFull Checks if the Graph is full.
      * @return True if the Graph is full, false otherwise.
      */
-    public boolean isFull()
-    {
+    public boolean isFull() {
         return totalVertices == capacity - 1;
     }
 
@@ -240,19 +208,15 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * @param vertex The vertex where all of its adjacent vertices are desired.
      * @return A Queue of adjacent vertices.
      */
-    public QueueArrayList<T> adjacentVertices(T vertex)
-    {
-        QueueArrayList<T> queue = new QueueArrayList<>();
+    public Queue<T> adjacentVertices(T vertex) {
+        Queue<T> queue = new LinkedList<>();
         int source = indexFinder(vertex);
-        if(source < 0)
-        {
+        if(source < 0) {
             return queue;
         }
-        for(int i = 0; i < totalVertices; i++)
-        {
-            if(edgeMatrix[source][i] != UNINITIALIZED_EDGE)
-            {
-                queue.enqueue(vertexArray[i]);
+        for(int i = 0; i < totalVertices; i++) {
+            if(edgeMatrix[source][i] != UNINITIALIZED_EDGE) {
+                queue.add(vertexArray[i]);
             }
         }
         return queue;
@@ -263,15 +227,12 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * @param vertex The vertex where all of its adjacent vertices are desired.
      * @return A Queue of adjacent vertex indices.
      */
-    private QueueArrayList<Integer> adjacentVertexIndices(T vertex)
-    {
-        QueueArrayList<Integer> queue = new QueueArrayList<>();
+    private Queue<Integer> adjacentVertexIndices(T vertex) {
+        Queue<Integer> queue = new LinkedList<>();
         int source = indexFinder(vertex);
-        for(int i = 0; i < totalVertices; i++)
-        {
-            if(edgeMatrix[source][i] != UNINITIALIZED_EDGE)
-            {
-                queue.enqueue(i);
+        for(int i = 0; i < totalVertices; i++) {
+            if(edgeMatrix[source][i] != UNINITIALIZED_EDGE) {
+                queue.add(i);
             }
         }
         return queue;
@@ -281,19 +242,13 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * markVertex Marks a vertex as seen.
      * @param vertex The vertex to mark.
      */
-    public void markVertex(T vertex)
-    {
-        for(int i = 0; i < totalVertices; i++)
-        {
-            try
-            {
-                if (vertexArray[i].equals(vertex))
-                {
+    public void markVertex(T vertex) {
+        for(int i = 0; i < totalVertices; i++) {
+            try {
+                if (vertexArray[i].equals(vertex)) {
                     seenVertexArray[i] = true;
                 }
-            }
-            catch(NullPointerException e)
-            {
+            } catch(NullPointerException e) {
                 continue;
             }
         }
@@ -304,19 +259,13 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * @param vertex The vertex to check.
      * @return True if the vertex is marked, false otherwise.
      */
-    public boolean isMarked(T vertex)
-    {
-        for(int i = 0; i < totalVertices; i++)
-        {
-            try
-            {
-                if (vertexArray[i].equals(vertex) && seenVertexArray[i])
-                {
+    public boolean isMarked(T vertex) {
+        for(int i = 0; i < totalVertices; i++) {
+            try {
+                if (vertexArray[i].equals(vertex) && seenVertexArray[i]) {
                     return true;
                 }
-            }
-            catch(NullPointerException e)
-            {
+            } catch(NullPointerException e) {
                 continue;
             }
         }
@@ -326,8 +275,7 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
     /**
      * clearAllMarks Clears the seenVertexArray of all seen marks, setting each value to false.
      */
-    public void clearAllMarks()
-    {
+    public void clearAllMarks() {
         Arrays.fill(seenVertexArray, false);
     }
 
@@ -335,12 +283,9 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>
      * getAnUnmarkedVertex Returns a vertex that is not marked in no particular order.
      * @return A vertex that is not marked.
      */
-    public T getAnUnmarkedVertex()
-    {
-        for(int i = 0; i < totalVertices; i++)
-        {
-            if(!seenVertexArray[i])
-            {
+    public T getAnUnmarkedVertex() {
+        for(int i = 0; i < totalVertices; i++) {
+            if(!seenVertexArray[i]) {
                 return vertexArray[i];
             }
         }
