@@ -1,4 +1,4 @@
-package UG;
+package UWG;
 
 import java.util.Queue;
 import java.util.Scanner;
@@ -7,7 +7,34 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
-        UndirectedWeightedGraph<String> graph = new UndirectedWeightedGraph<>();
+        GraphInterface<String> graph = new UndirectedWeightedGraph<>();
+        testDriver(scn, graph);
+        scn.close();
+    }
+
+    /**
+     * menu A menu of choices for interacting with the Graph.
+     */
+    public static void menu() {
+        System.out.print("\nMethods for Weighted Graph (Undirected)\n1 - ADD VERTEX - Adds a vertex to the " +
+                "Graph\n2 - HAS VERTEX - Checks if a vertex is present\n3 - REMOVE VERTEX - Removes a specified " +
+                "vertex if present\n4 - GET TOTAL VERTICES - Returns the total number of vertices in the graph" +
+                "\n5 - ADD EDGE - Adds an edge between two vertices\n6 - GET EDGE - Returns the edge weight " +
+                "between two vertices\n7 - CONTAINS EDGE - Checks if an edge is present between two vertices\n8" +
+                " - REMOVE EDGE - Removes an edge between two vertices\n9 - IS EMPTY - Checks if the Graph is " +
+                "empty of vertices\n10 - IS FULL - Checks if the Graph contains maximum allowed vertices\n11 - " +
+                "ADJACENT VERTICES - Returns all adjacent vertices to a specified vertex\n12 - MARK VERTEX - "+
+                "Marks a vertex as seen\n13 - IS MARKED - Checks if a vertex is marked as seen\n14 - CLEAR ALL " +
+                "MARKS - Removes all marks from the Graph\n15 - GET AN UNMARKED VERTEX - Returns a single " +
+                "unmarked vertex\nX - TERMINATE\n\nEnter choice: ");
+    }
+
+    /**
+     * testDriver A test driver for interacting with an object that implements a GraphInterface interface.
+     * @param scn A Scanner object for user input.
+     * @param graph An object that implements a GraphInterface interface.
+     */
+    public static void testDriver(Scanner scn, GraphInterface<String> graph) {
         String choice = "";
         while(!choice.equalsIgnoreCase("X")) {
             menu();
@@ -90,23 +117,5 @@ public class Main {
                 System.out.println("Invalid choice");
             }
         }
-        scn.close();
-    }
-
-    /**
-     * menu A menu of choices for interacting with the Graph.
-     */
-    public static void menu() {
-        System.out.print("\nMethods for Weighted Graph (Undirected)\n1 - ADD VERTEX - Adds a vertex to the " +
-                "Graph\n2 - HAS VERTEX - Checks if a vertex is present\n3 - REMOVE VERTEX - Removes a specified " +
-                "vertex if present\n4 - GET TOTAL VERTICES - Returns the total number of vertices in the graph" +
-                "\n5 - ADD EDGE - Adds an edge between two vertices\n6 - GET EDGE - Returns the edge weight " +
-                "between two vertices\n7 - CONTAINS EDGE - Checks if an edge is present between two vertices\n8" +
-                " - REMOVE EDGE - Removes an edge between two vertices\n9 - IS EMPTY - Checks if the Graph is " +
-                "empty of vertices\n10 - IS FULL - Checks if the Graph contains maximum allowed vertices\n11 - " +
-                "ADJACENT VERTICES - Returns all adjacent vertices to a specified vertex\n12 - MARK VERTEX - "+
-                "Marks a vertex as seen\n13 - IS MARKED - Checks if a vertex is marked as seen\n14 - CLEAR ALL " +
-                "MARKS - Removes all marks from the Graph\n15 - GET AN UNMARKED VERTEX - Returns a single " +
-                "unmarked vertex\nX - TERMINATE\n\nEnter choice: ");
     }
 }
