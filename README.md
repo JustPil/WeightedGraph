@@ -1,10 +1,12 @@
 # WeightedGraph
 Summary
 
-Graph ADT featuring edge weights and an adjacency matrix for internal storage of edges between any two vertices.
+Graph ADT implemented as a Directed or Undirected Graph.
 
 Design
 
-Supports addition and removal of vertices or edges, discovery of edges or vertices, discovery of all adjacent vertices to any one vertex, and marking of vertices for traversal.
+Directed Graph implementation uses an adjacency list for internal edge storage, where connected vertices are represented with a linked list of connected vertices.
 
-Allows for default vertex capacity or user-defined capacity with overloaded constructor. Internally, vertices are stored in a generic array, edges in a 2D array matrix, and traversed vertices in a boolean array.
+Undirected Graph implementation uses an adjacency matrix for internal edge storage, where the indices of a two-dimensional array represent any two vertices, and the value at the index represents the edge weight between those two vertices.
+
+Includes methods for adding, removing, and retrieving vertices/edges, marking vertices for graph traversal, and retrieving all connected vertices to any one particular vertex.
