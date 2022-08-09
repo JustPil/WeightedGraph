@@ -11,6 +11,7 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>{
     private T[] vertexArray;
     private int[][] edgeMatrix;
     private boolean[] seenVertexArray;
+    private final double LOAD_THRESHOLD = .75;
 
     /**
      * Constructor initializes capacity to 25 elements.
@@ -58,6 +59,9 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>{
                 }
             }
             totalVertices++;
+            if((double) (totalVertices / capacity) >= LOAD_THRESHOLD) {
+                resize();
+            }
             return true;
         }
         return false;
@@ -301,5 +305,30 @@ public class UndirectedWeightedGraph<T> implements GraphInterface<T>{
             }
         }
         return null;
+    }
+
+    /**
+     * resize Resizes the internal arrays to double capacity if the original array's load threshold is met or exceeded.
+     */
+    private void resize() {
+        T[] resizedArray = (T[])new Object[capacity *= 2];
+        int[][] resizedMatrix = new int[capacity][capacity];
+        boolean[] resizedSeenArray = new boolean[capacity];
+        for(int i = 0; i < vertexArray.length; i++) {
+            if(vertexArray[i] != null) {
+                resizedArray[i] = vertexArray[i];
+            }
+            if(seenVertexArray[i]) {
+                resizedSeenArray[i] = true;
+            }
+        }
+        for(int i = 0; i < edgeMatrix.length; i++) {
+            for(int j = 0; j < edgeMatrix[i].length; j++) {
+                resizedMatrix[i][j] = edgeMatrix[i][j] == UNINITIALIZED_EDGE ? UNINITIALIZED_EDGE : edgeMatrix[i][j];
+            }
+        }
+        vertexArray = resizedArray;
+        edgeMatrix = resizedMatrix;
+        seenVertexArray = resizedSeenArray;
     }
 }
