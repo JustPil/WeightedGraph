@@ -24,14 +24,6 @@ public class UndirectedWeightedGraphTests {
         Assertions.assertTrue(result);
     }
     @Test
-    public void addVertexToFullGraph() {
-        for(int i = 0; i < 25; i++) {
-            graph.addVertex(i + 1);
-        }
-        var result = graph.addVertex(26);
-        Assertions.assertFalse(result);
-    }
-    @Test
     public void addVertexToFormerlyFullGraph() {
         for(int i = 0; i < 25; i++) {
             graph.addVertex(i + 1);
@@ -135,14 +127,6 @@ public class UndirectedWeightedGraphTests {
         Assertions.assertTrue(result);
     }
     @Test
-    public void checkifMaximumCapacityGraphIsFull() {
-        for(int i = 0; i < 25; i++) {
-            graph.addVertex(i + 1);
-        }
-        var result = graph.isFull();
-        Assertions.assertTrue(result);
-    }
-    @Test
     public void checkifGraphIsEmptyAfterRemovingAllVertices() {
         for(int i = 0; i < 25; i++) {
             graph.addVertex(i + 1);
@@ -186,5 +170,13 @@ public class UndirectedWeightedGraphTests {
     public void getUnmarkedVertexFromEmptyGraph() {
         var result = graph.getAnUnmarkedVertex();
         Assertions.assertNull(result);
+    }
+    @Test
+    public void resizeGraph() {
+        for(int i = 0; i < 26; i++) {
+            graph.addVertex(i + 1);
+        }
+        var result = graph.getTotalVertices();
+        Assertions.assertEquals(26, result);
     }
 }
