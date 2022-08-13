@@ -1,7 +1,6 @@
 package graphs;
 
 import Nodes.Node;
-
 import java.util.*;
 
 public class DirectedWeightedGraph<T> implements GraphInterface<T> {
@@ -9,6 +8,7 @@ public class DirectedWeightedGraph<T> implements GraphInterface<T> {
     private int totalVertices = 0;
     private Node<T>[] vertexArray;
     private boolean[] seenVertexArray;
+    private final double LOAD_THRESHOLD = .75;
 
     /**
      * Constructor initializes capacity to 25 elements.
@@ -25,7 +25,7 @@ public class DirectedWeightedGraph<T> implements GraphInterface<T> {
      */
     public DirectedWeightedGraph(int cap) {
         capacity = cap > 0 ? cap : 25;
-        vertexArray = (Node<T>[])new Object[capacity];
+        vertexArray = new Node[capacity];
         seenVertexArray = new boolean[capacity];
     }
 
@@ -46,6 +46,9 @@ public class DirectedWeightedGraph<T> implements GraphInterface<T> {
                 }
             }
             totalVertices++;
+            if((double) (totalVertices / capacity) >= LOAD_THRESHOLD) {
+                resize();
+            }
             return true;
         }
         return false;
@@ -324,5 +327,23 @@ public class DirectedWeightedGraph<T> implements GraphInterface<T> {
             }
         }
         return null;
+    }
+
+    /**
+     * resize Resizes the internal arrays to double capacity if the original array's load threshold is met or exceeded.
+     */
+    private void resize() {
+        Node<T>[] resizedArray = new Node[capacity *= 2];
+        boolean[] resizedSeenArray = new boolean[capacity];
+        for(int i = 0; i < vertexArray.length; i++) {
+            if(vertexArray[i] != null) {
+                resizedArray[i] = vertexArray[i];
+            }
+            if(seenVertexArray[i]) {
+                resizedSeenArray[i] = true;
+            }
+        }
+        vertexArray = resizedArray;
+        seenVertexArray = resizedSeenArray;
     }
 }
