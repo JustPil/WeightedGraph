@@ -24,25 +24,7 @@ public class DirectedWeightedGraphTests {
         Assertions.assertTrue(result);
     }
     @Test
-    public void addVertexToFullGraph() {
-        for(int i = 0; i < 25; i++) {
-            graph.addVertex(i + 1);
-        }
-        var result = graph.addVertex(26);
-        Assertions.assertFalse(result);
-    }
-    @Test
-    public void addVertexToFormerlyFullGraph() {
-        for(int i = 0; i < 25; i++) {
-            graph.addVertex(i + 1);
-        }
-        graph.removeVertex(1);
-        graph.addVertex(0);
-        var result = graph.hasVertex(0) && !graph.hasVertex(1);
-        Assertions.assertTrue(result);
-    }
-    @Test
-    public void removeAllVerticesFromFullGraph() {
+    public void removeAllVerticesFromGraph() {
         for(int i = 0; i < 25; i++) {
             graph.addVertex(i + 1);
         }
@@ -135,14 +117,6 @@ public class DirectedWeightedGraphTests {
         Assertions.assertTrue(result);
     }
     @Test
-    public void checkifMaximumCapacityGraphIsFull() {
-        for(int i = 0; i < 25; i++) {
-            graph.addVertex(i + 1);
-        }
-        var result = graph.isFull();
-        Assertions.assertTrue(result);
-    }
-    @Test
     public void checkifGraphIsEmptyAfterRemovingAllVertices() {
         for(int i = 0; i < 25; i++) {
             graph.addVertex(i + 1);
@@ -186,5 +160,13 @@ public class DirectedWeightedGraphTests {
     public void getUnmarkedVertexFromEmptyGraph() {
         var result = graph.getAnUnmarkedVertex();
         Assertions.assertNull(result);
+    }
+    @Test
+    public void resizeGraph() {
+        for(int i = 0; i < 26; i++) {
+            graph.addVertex(i + 1);
+        }
+        var result = graph.getTotalVertices();
+        Assertions.assertEquals(26, result);
     }
 }
