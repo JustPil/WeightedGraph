@@ -1,6 +1,6 @@
 package graphs;
 
-import Nodes.Node;
+import nodes.Node;
 import java.util.*;
 
 public class DirectedWeightedGraph<T> implements GraphInterface<T> {
